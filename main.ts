@@ -3,7 +3,11 @@ import { AtprotoHandleResolver } from "@atproto-labs/handle-resolver";
 
 const resolver = new AtprotoHandleResolver({
   async resolveTxt(hostname) {
-    return (await Deno.resolveDns(hostname, "TXT")).flat();
+    try {
+      return (await Deno.resolveDns(hostname, "TXT")).flat();
+    } catch (_) {
+      return [];
+    }
   },
   fetch,
 });
